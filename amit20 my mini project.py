@@ -1,17 +1,20 @@
 import turtle
 import random #We'll need this later in the lab
-
-
+turtle.register_shape("Smiley.gif")
+turtle.bgcolor("black")
 turtle.tracer(1,0) #This helps the turtle move more smoothly
-
-SIZE_X=800
-SIZE_Y=500
-turtle.setup(SIZE_X, SIZE_Y) #Curious? It's the turtle window  
+score_turtle= turtle.clone()
+score_turtle.hideturtle()
+score = 0
+SIZE_X=1500
+SIZE_Y=1000
+turtle.setup(1500,1000) #Curious? It's the turtle window  
                              #size. 
 turtle.penup()
 
+
 SQUARE_SIZE = 20
-START_LENGTH = 6
+START_LENGTH =      6
 
 #Initialize lists
 pos_list = []
@@ -19,13 +22,14 @@ stamp_list = []
 food_pos = []
 food_stamps = []
 
-UP_EDGE = 250
-DOWN_EDGE = -250
-RIGHT_EDGE = 400
-LEFT_EDGE = -400
+
+UP_EDGE = 500
+DOWN_EDGE = -500
+RIGHT_EDGE = 750
+LEFT_EDGE = -750
 #Set up positions (x,y) of boxes that make up the snake
 snake = turtle.clone()
-snake.shape("square")
+snake.shape("Smiley.gif")
 
 #Hide the turtle object (it's an arrow - we don't need to see it)
 turtle.hideturtle()
@@ -105,9 +109,9 @@ turtle.onkeypress(right, RIGHT_ARROW)
 turtle.listen()
 
 
-turtle.register_shape("trash.gif")
+turtle.register_shape("candy.gif")
 food = turtle.clone()
-food.shape("trash.gif") 
+food.shape("candy.gif") 
 food_pos = [(100,100), (-100,100), (-100,-100), (100,-100)]
 for this_food_pos in food_pos :
     food.goto(this_food_pos)
@@ -165,7 +169,7 @@ def move_snake():
         quit()
 
 
-    global food_stamps, food_pos
+    global food_stamps, food_pos, score
     #If snake is on top of food item
     if snake.pos() in food_pos:
         food_ind=food_pos.index(snake.pos()) #What does this do?
@@ -173,6 +177,16 @@ def move_snake():
                                                #stamp
         food_pos.pop(food_ind) #Remove eaten food position
         food_stamps.pop(food_ind) #Remove eaten food stamp
+        
+        score_turtle.clear()
+        score_turtle.pencolor("yellow")
+        score_turtle.penup()
+        score_turtle.goto(-700,450)
+        score_turtle.pendown()
+        score_turtle.write(score)
+        score = score + 1
+        
+        
     else:
         old_stamp = stamp_list.pop(0)
         snake.clearstamp(old_stamp)
@@ -193,12 +207,10 @@ def move_snake():
 
     #pop zeroth element in pos_list to get rid of last the last 
     #piece of the tail
-
-
     
     turtle.ontimer(move_snake,TIME_STEP)
 move_snake()  
 
     
 
-    
+snake.color("light blue")
